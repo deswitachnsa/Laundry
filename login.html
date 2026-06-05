@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masuk — Nisa Laundry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --sky: #3b82f6; --sky-dark: #1d4ed8; --sky-light: #eff6ff; --sky-mid: #bfdbfe;
+  --navy: #0f172a; --muted: #64748b; --white: #fff;
+  --red: #ef4444; --red-light: #fef2f2;
+  --green: #16a34a; --green-light: #f0fdf4;
+  --gold: #c9a84c;
+  --radius: 14px; --shadow-lg: 0 24px 80px rgba(15,23,42,0.14);
+}
+body {
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh; display: flex;
+  background: linear-gradient(160deg, #e8f4ff 0%, #f0f7ff 40%, #ffffff 100%);
+  position: relative; overflow: hidden;
+}
+.bg-deco {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+}
+.bg-circle {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 70%);
+}
+.bg-circle-1 { width: 700px; height: 700px; top: -200px; right: -150px; }
+.bg-circle-2 { width: 500px; height: 500px; bottom: -150px; left: -100px; }
+.bg-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* SPLIT LAYOUT */
+.split { display: flex; min-height: 100vh; width: 100%; position: relative; z-index: 1; }
+.split-left {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  padding: 60px 64px;
+  background: linear-gradient(160deg, var(--navy) 0%, #1e3a5f 100%);
+  position: relative; overflow: hidden;
+}
+.split-left::before {
+  content: '';
+  position: absolute; top: -200px; left: -100px;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 60%);
+}
+.split-left::after {
+  content: '';
+  position: absolute; bottom: -100px; right: -100px;
+  width: 350px; height: 350px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 60%);
+}
+.left-content { position: relative; z-index: 1; max-width: 440px; }
+.brand-link { display: flex; align-items: center; gap: 12px; text-decoration: none; margin-bottom: 60px; }
+.logo-mark {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, var(--sky), var(--sky-dark));
+  border-radius: 11px; display: flex; align-items: center; justify-content: center;
+}
+.logo-mark svg { width: 20px; height: 20px; fill: white; }
+.brand-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: white; }
+.left-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px; font-weight: 700; color: white;
+  line-height: 1.25; margin-bottom: 16px;
+}
+.left-title span { color: #93c5fd; }
+.left-sub { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-bottom: 48px; }
+.left-features { display: flex; flex-direction: column; gap: 16px; }
+.left-feat { display: flex; align-items: center; gap: 14px; }
+.feat-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(59,130,246,0.2); border: 1px solid rgba(59,130,246,0.3);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.feat-icon svg { width: 16px; height: 16px; stroke: #93c5fd; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.feat-text { font-size: 14px; color: rgba(255,255,255,0.7); }
+
+/* FORM SIDE */
+.split-right {
+  width: 480px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px 48px;
+  background: white;
+}
+.form-box { width: 100%; max-width: 360px; }
+.form-header { margin-bottom: 36px; }
+.form-header .tab-row { display: flex; gap: 4px; background: #f1f5f9; border-radius: 10px; padding: 4px; margin-bottom: 28px; }
+.tab-btn {
+  flex: 1; padding: 8px; border-radius: 7px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  border: none; cursor: pointer; transition: all 0.2s; color: var(--muted);
+  background: transparent;
+}
+.tab-btn.active { background: white; color: var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.form-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.form-sub { font-size: 13px; color: var(--muted); }
+
+.form-group { margin-bottom: 18px; }
+.form-label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.6px; }
+.form-input {
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid #e2e8f0; border-radius: 9px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: var(--navy); background: white; outline: none;
+  transition: all 0.2s;
+}
+.form-input:focus { border-color: var(--sky); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+.form-input.error { border-color: var(--red); box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
+
+.role-selector { display: flex; gap: 10px; margin-bottom: 20px; }
+.role-opt {
+  flex: 1; padding: 12px; border-radius: 10px;
+  border: 1.5px solid #e2e8f0; cursor: pointer;
+  transition: all 0.2s; text-align: center;
+  background: white;
+}
+.role-opt:hover { border-color: var(--sky-mid); }
+.role-opt.selected { border-color: var(--sky); background: var(--sky-light); }
+.role-opt.selected.gold-selected { border-color: var(--gold); background: #fffbeb; }
+.role-opt-icon { font-size: 20px; margin-bottom: 4px; }
+.role-opt-label { font-size: 12px; font-weight: 600; color: var(--muted); }
+.role-opt.selected .role-opt-label { color: var(--sky-dark); }
+.role-opt.selected.gold-selected .role-opt-label { color: #92400e; }
+
+.btn-submit {
+  width: 100%; padding: 13px; border-radius: 10px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+  color: white; border: none; cursor: pointer;
+  background: linear-gradient(135deg, var(--sky), var(--sky-dark));
+  box-shadow: 0 4px 16px rgba(59,130,246,0.3);
+  transition: all 0.2s; margin-top: 4px;
+}
+.btn-submit:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(59,130,246,0.4); }
+.btn-submit:active { transform: translateY(0); }
+
+.alert-msg {
+  padding: 11px 14px; border-radius: 9px;
+  font-size: 13px; font-weight: 500; margin-bottom: 16px; display: none;
+}
+.alert-error { background: var(--red-light); color: var(--red); border: 1px solid #fecaca; }
+.alert-success { background: var(--green-light); color: var(--green); border: 1px solid #bbf7d0; }
+
+.divider { text-align: center; margin: 20px 0; position: relative; }
+.divider::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #e2e8f0; }
+.divider span { position: relative; background: white; padding: 0 12px; font-size: 12px; color: var(--muted); }
+
+.form-footer { margin-top: 20px; text-align: center; font-size: 13px; color: var(--muted); }
+.form-footer a { color: var(--sky); font-weight: 500; text-decoration: none; }
+.form-footer a:hover { text-decoration: underline; }
+
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; margin-top: 48px; }
+.back-link:hover { color: white; }
+.back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+@media (max-width: 900px) { .split-left { display: none; } .split-right { width: 100%; } }
+</style>
+</head>
+<body>
+<div class="bg-deco">
+  <div class="bg-circle bg-circle-1"></div>
+  <div class="bg-circle bg-circle-2"></div>
+  <div class="bg-grid"></div>
+</div>
+
+<div class="split">
+  <!-- LEFT -->
+  <div class="split-left">
+    <div class="left-content">
+      <a href="index.html" class="brand-link">
+        <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+        <span class="brand-name">Nisa Laundry</span>
+      </a>
+      <div class="left-title">Selamat Datang<br>Kembali <span>ke Nisa</span></div>
+      <p class="left-sub">Masuk untuk mengelola pesanan, memantau status, dan mengakses laporan bisnis Anda.</p>
+      <div class="left-features">
+        <div class="left-feat">
+          <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12"/><path d="M1 1l22 22"/></svg></div>
+          <span class="feat-text">Pantau status pesanan secara real-time</span>
+        </div>
+        <div class="left-feat">
+          <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <span class="feat-text">Data aman tersimpan di browser Anda</span>
+        </div>
+        <div class="left-feat">
+          <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
+          <span class="feat-text">Laporan pendapatan bulanan otomatis</span>
+        </div>
+      </div>
+      <a href="index.html" class="back-link">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Kembali ke beranda
+      </a>
+    </div>
+  </div>
+
+  <!-- RIGHT: LOGIN FORM -->
+  <div class="split-right">
+    <div class="form-box">
+      <div class="form-header">
+        <div class="tab-row">
+          <button class="tab-btn active" onclick="showTab('login')">Masuk</button>
+          <button class="tab-btn" onclick="window.location.href='register.html'">Daftar</button>
+        </div>
+        <div class="form-title">Masuk ke Akun</div>
+        <div class="form-sub">Gunakan kredensial yang sudah terdaftar</div>
+      </div>
+
+      <div id="alert-box" class="alert-msg alert-error"></div>
+
+      <div class="form-group">
+        <label class="form-label">Login Sebagai</label>
+        <div class="role-selector">
+          <div class="role-opt selected" id="opt-admin" onclick="selectRole('admin')">
+            <div class="role-opt-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" style="stroke:#3b82f6;fill:none;stroke-width:1.8;stroke-linecap:round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="role-opt-label">Admin</div>
+          </div>
+          <div class="role-opt" id="opt-customer" onclick="selectRole('customer')">
+            <div class="role-opt-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" style="stroke:#64748b;fill:none;stroke-width:1.8;stroke-linecap:round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="role-opt-label">Pelanggan</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input type="text" id="username" class="form-input" placeholder="Masukkan username" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" id="password" class="form-input" placeholder="Masukkan password" />
+      </div>
+
+      <button class="btn-submit" onclick="doLogin()">Masuk</button>
+
+      <div class="form-footer" style="margin-top:24px">
+        Belum punya akun? <a href="register.html">Daftar sekarang</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var role = 'admin';
+
+  function selectRole(r) {
+    role = r;
+    var admin = document.getElementById('opt-admin');
+    var cust = document.getElementById('opt-customer');
+    if (r === 'admin') {
+      admin.className = 'role-opt selected';
+      cust.className = 'role-opt';
+      admin.querySelector('.role-opt-label').style.color = '#1d4ed8';
+      cust.querySelector('.role-opt-label').style.color = '';
+      admin.querySelector('svg').style.stroke = '#3b82f6';
+      cust.querySelector('svg').style.stroke = '#64748b';
+    } else {
+      cust.className = 'role-opt selected gold-selected';
+      admin.className = 'role-opt';
+      cust.querySelector('.role-opt-label').style.color = '#92400e';
+      admin.querySelector('.role-opt-label').style.color = '';
+      cust.querySelector('svg').style.stroke = '#c9a84c';
+      admin.querySelector('svg').style.stroke = '#64748b';
+    }
+  }
+  window.selectRole = selectRole;
+
+  function showAlert(msg, type) {
+    var el = document.getElementById('alert-box');
+    el.textContent = msg;
+    el.className = 'alert-msg ' + (type === 'error' ? 'alert-error' : 'alert-success');
+    el.style.display = 'block';
+    if (type !== 'error') setTimeout(function() { el.style.display = 'none'; }, 3000);
+  }
+
+  function doLogin() {
+    var user = document.getElementById('username').value.trim();
+    var pass = document.getElementById('password').value;
+    if (!user || !pass) { showAlert('Username dan password wajib diisi.', 'error'); return; }
+
+    if (role === 'admin') {
+      var ADMIN = { user: 'admin', pass: '12345' };
+      if (user === ADMIN.user && pass === ADMIN.pass) {
+        localStorage.setItem('nl_session', JSON.stringify({ role: 'admin', username: 'admin', name: 'Admin' }));
+        window.location.href = 'admin.html';
+      } else {
+        showAlert('Username atau password admin salah.', 'error');
+        document.getElementById('password').value = '';
+      }
+    } else {
+      var pelanggan = JSON.parse(localStorage.getItem('nl_pelanggan') || '[]');
+      var found = pelanggan.find(function(p) { return p.username === user && p.password === pass; });
+      if (found) {
+        localStorage.setItem('nl_session', JSON.stringify({ role: 'customer', username: found.username, name: found.nama }));
+        window.location.href = 'pelanggan.html';
+      } else {
+        showAlert('Username atau password salah.', 'error');
+        document.getElementById('password').value = '';
+      }
+    }
+  }
+  window.doLogin = doLogin;
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doLogin();
+  });
+
+  // Redirect if already logged in
+  var sess = localStorage.getItem('nl_session');
+  if (sess) {
+    try {
+      var s = JSON.parse(sess);
+      if (s.role === 'admin') window.location.href = 'admin.html';
+      else window.location.href = 'pelanggan.html';
+    } catch(e) {}
+  }
+
+  window.showTab = function() {};
+});
+</script>
+</body>
+</html>
