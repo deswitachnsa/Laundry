@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar — Nisa Laundry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --sky: #3b82f6; --sky-dark: #1d4ed8; --sky-light: #eff6ff; --sky-mid: #bfdbfe;
+  --navy: #0f172a; --muted: #64748b; --white: #fff;
+  --red: #ef4444; --red-light: #fef2f2;
+  --green: #16a34a; --green-light: #f0fdf4;
+  --gold: #c9a84c;
+}
+body {
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh; display: flex;
+  background: linear-gradient(160deg, #e8f4ff 0%, #f0f7ff 40%, #ffffff 100%);
+}
+.split { display: flex; min-height: 100vh; width: 100%; }
+.split-left {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  padding: 60px 64px;
+  background: linear-gradient(160deg, #1e3a5f 0%, var(--navy) 100%);
+  position: relative; overflow: hidden;
+}
+.split-left::before { content: ''; position: absolute; top: -200px; left: -100px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 60%); }
+.left-content { position: relative; z-index: 1; max-width: 440px; }
+.brand-link { display: flex; align-items: center; gap: 12px; text-decoration: none; margin-bottom: 60px; }
+.logo-mark { width: 40px; height: 40px; background: linear-gradient(135deg, var(--gold), #a07730); border-radius: 11px; display: flex; align-items: center; justify-content: center; }
+.logo-mark svg { width: 20px; height: 20px; fill: white; }
+.brand-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: white; }
+.left-title { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: white; line-height: 1.25; margin-bottom: 16px; }
+.left-title span { color: #fcd34d; }
+.left-sub { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-bottom: 48px; }
+.left-features { display: flex; flex-direction: column; gap: 16px; }
+.left-feat { display: flex; align-items: center; gap: 14px; }
+.feat-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.feat-icon svg { width: 16px; height: 16px; stroke: #fcd34d; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.feat-text { font-size: 14px; color: rgba(255,255,255,0.7); }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; margin-top: 48px; }
+.back-link:hover { color: white; }
+.back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+.split-right { width: 480px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 40px 48px; background: white; }
+.form-box { width: 100%; max-width: 360px; }
+.tab-row { display: flex; gap: 4px; background: #f1f5f9; border-radius: 10px; padding: 4px; margin-bottom: 28px; }
+.tab-btn { flex: 1; padding: 8px; border-radius: 7px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; border: none; cursor: pointer; transition: all 0.2s; color: var(--muted); background: transparent; }
+.tab-btn.active { background: white; color: var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.form-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.form-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.6px; }
+.form-input { width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--navy); background: white; outline: none; transition: all 0.2s; }
+.form-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.12); }
+.form-input.error { border-color: var(--red); }
+.btn-submit { width: 100%; padding: 13px; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: white; border: none; cursor: pointer; background: linear-gradient(135deg, var(--gold), #a07730); box-shadow: 0 4px 16px rgba(201,168,76,0.3); transition: all 0.2s; margin-top: 4px; }
+.btn-submit:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,0.4); }
+.alert-msg { padding: 11px 14px; border-radius: 9px; font-size: 13px; font-weight: 500; margin-bottom: 16px; display: none; }
+.alert-error { background: var(--red-light); color: var(--red); border: 1px solid #fecaca; }
+.alert-success { background: var(--green-light); color: var(--green); border: 1px solid #bbf7d0; }
+.form-footer { margin-top: 20px; text-align: center; font-size: 13px; color: var(--muted); }
+.form-footer a { color: var(--sky); font-weight: 500; text-decoration: none; }
+.form-footer a:hover { text-decoration: underline; }
+.input-hint { font-size: 11px; color: var(--muted); margin-top: 5px; }
+@media (max-width: 900px) { .split-left { display: none; } .split-right { width: 100%; } }
+</style>
+</head>
+<body>
+<div class="split">
+  <div class="split-left">
+    <div class="left-content">
+      <a href="index.html" class="brand-link">
+        <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+        <span class="brand-name">Nisa Laundry</span>
+      </a>
+      <div class="left-title">Bergabung<br>Bersama <span>Kami</span></div>
+      <p class="left-sub">Daftar sebagai pelanggan Nisa Laundry dan nikmati kemudahan memantau laundry Anda kapanpun.</p>
+      <div class="left-features">
+        <div class="left-feat">
+          <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+          <span class="feat-text">Pantau status laundry real-time</span>
+        </div>
+        <div class="left-feat">
+          <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <span class="feat-text">Lihat riwayat pesanan lengkap</span>
+        </div>
+        <div class="left-feat">
+          <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+          <span class="feat-text">Notifikasi saat laundry selesai</span>
+        </div>
+      </div>
+      <a href="index.html" class="back-link">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Kembali ke beranda
+      </a>
+    </div>
+  </div>
+
+  <div class="split-right">
+    <div class="form-box">
+      <div class="tab-row">
+        <button class="tab-btn" onclick="window.location.href='login.html'">Masuk</button>
+        <button class="tab-btn active">Daftar</button>
+      </div>
+      <div class="form-title">Buat Akun Baru</div>
+      <div class="form-sub">Isi data di bawah untuk mendaftar sebagai pelanggan</div>
+      <div id="alert-box" class="alert-msg"></div>
+      <div class="form-group">
+        <label class="form-label">Nama Lengkap</label>
+        <input type="text" id="reg-nama" class="form-input" placeholder="Contoh: Budi Santoso" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nomor Telepon</label>
+        <input type="text" id="reg-phone" class="form-input" placeholder="08xx-xxxx-xxxx" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input type="text" id="reg-user" class="form-input" placeholder="Pilih username unik" />
+        <div class="input-hint">Huruf kecil, tanpa spasi. Digunakan untuk login.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" id="reg-pass" class="form-input" placeholder="Minimal 6 karakter" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Konfirmasi Password</label>
+        <input type="password" id="reg-pass2" class="form-input" placeholder="Ulangi password" />
+      </div>
+      <button class="btn-submit" onclick="doRegister()">Daftar Sekarang</button>
+      <div class="form-footer">
+        Sudah punya akun? <a href="login.html">Masuk di sini</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  function showAlert(msg, type) {
+    var el = document.getElementById('alert-box');
+    el.textContent = msg;
+    el.className = 'alert-msg ' + (type === 'error' ? 'alert-error' : 'alert-success');
+    el.style.display = 'block';
+  }
+
+  window.doRegister = function() {
+    var nama = document.getElementById('reg-nama').value.trim();
+    var phone = document.getElementById('reg-phone').value.trim();
+    var user = document.getElementById('reg-user').value.trim().toLowerCase();
+    var pass = document.getElementById('reg-pass').value;
+    var pass2 = document.getElementById('reg-pass2').value;
+
+    if (!nama || !user || !pass || !pass2) { showAlert('Semua field wajib diisi.', 'error'); return; }
+    if (user === 'admin') { showAlert('Username tersebut tidak tersedia.', 'error'); return; }
+    if (/\s/.test(user)) { showAlert('Username tidak boleh mengandung spasi.', 'error'); return; }
+    if (pass.length < 6) { showAlert('Password minimal 6 karakter.', 'error'); return; }
+    if (pass !== pass2) { showAlert('Konfirmasi password tidak cocok.', 'error'); return; }
+
+    var pelanggan = JSON.parse(localStorage.getItem('nl_pelanggan') || '[]');
+    var exists = pelanggan.find(function(p) { return p.username === user; });
+    if (exists) { showAlert('Username sudah digunakan, pilih yang lain.', 'error'); return; }
+
+    pelanggan.push({ nama: nama, telepon: phone, username: user, password: pass, tglDaftar: new Date().toLocaleDateString('id-ID') });
+    localStorage.setItem('nl_pelanggan', JSON.stringify(pelanggan));
+
+    showAlert('Akun berhasil dibuat! Mengalihkan ke halaman login...', 'success');
+    setTimeout(function() { window.location.href = 'login.html'; }, 1800);
+  };
+
+  document.addEventListener('keydown', function(e) { if (e.key === 'Enter') window.doRegister(); });
+});
+</script>
+</body>
+</html>
