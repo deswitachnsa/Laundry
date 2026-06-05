@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — Nisa Laundry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --sky: #3b82f6; --sky-dark: #1d4ed8; --sky-light: #eff6ff; --sky-mid: #bfdbfe;
+  --navy: #0f172a; --navy2: #1e293b; --muted: #64748b; --muted2: #94a3b8;
+  --surface: #ffffff; --bg: #f8faff; --border: #e2e8f0;
+  --green: #16a34a; --green-light: #f0fdf4;
+  --red: #dc2626; --red-light: #fef2f2;
+  --amber: #d97706; --amber-light: #fffbeb;
+  --gold: #c9a84c;
+  --radius: 12px; --radius-lg: 18px;
+  --shadow: 0 1px 4px rgba(15,23,42,0.06);
+  --shadow-md: 0 4px 20px rgba(15,23,42,0.09);
+}
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--navy); font-size: 14px; }
+
+/* TOPBAR */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 60px; background: white;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 28px;
+  gap: 16px; box-shadow: var(--shadow);
+}
+.topbar-brand { display: flex; align-items: center; gap: 10px; margin-right: 24px; }
+.logo-mark { width: 34px; height: 34px; background: linear-gradient(135deg, var(--sky), var(--sky-dark)); border-radius: 9px; display: flex; align-items: center; justify-content: center; }
+.logo-mark svg { width: 17px; height: 17px; fill: white; }
+.brand-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--navy); }
+.topbar-nav { display: flex; gap: 4px; flex: 1; }
+.nav-tab { padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--muted); border: none; background: transparent; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+.nav-tab svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; }
+.nav-tab:hover { background: var(--sky-light); color: var(--sky); }
+.nav-tab.active { background: var(--sky-light); color: var(--sky-dark); font-weight: 600; }
+.topbar-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+.user-pill { display: flex; align-items: center; gap: 8px; padding: 5px 12px 5px 5px; background: var(--bg); border: 1px solid var(--border); border-radius: 100px; }
+.user-avatar { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, var(--sky), var(--sky-dark)); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: white; }
+.user-name { font-size: 12px; font-weight: 600; color: var(--navy); }
+.btn-logout { padding: 6px 14px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; color: var(--red); background: var(--red-light); border: 1px solid #fecaca; cursor: pointer; transition: all 0.2s; }
+.btn-logout:hover { background: #fecaca; }
+
+/* MAIN */
+.main { padding: 80px 28px 40px; max-width: 1240px; margin: 0 auto; }
+.page { display: none; }
+.page.active { display: block; }
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: gap; }
+.page-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--navy); }
+.page-sub { font-size: 13px; color: var(--muted); margin-top: 3px; }
+
+/* STATS */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+.stat-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; position: relative; overflow: hidden; }
+.stat-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.stat-card.blue::after { background: linear-gradient(90deg, var(--sky), var(--sky-dark)); }
+.stat-card.green::after { background: linear-gradient(90deg, #22c55e, var(--green)); }
+.stat-card.amber::after { background: linear-gradient(90deg, #f59e0b, var(--amber)); }
+.stat-card.navy::after { background: linear-gradient(90deg, #6366f1, #4f46e5); }
+.stat-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.stat-icon svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; }
+.stat-card.blue .stat-icon { background: var(--sky-light); color: var(--sky); }
+.stat-card.green .stat-icon { background: #f0fdf4; color: var(--green); }
+.stat-card.amber .stat-icon { background: #fffbeb; color: var(--amber); }
+.stat-card.navy .stat-icon { background: #eef2ff; color: #4f46e5; }
+.stat-val { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--navy); }
+.stat-lbl { font-size: 12px; color: var(--muted); margin-top: 3px; font-weight: 500; }
+
+/* TABLE */
+.table-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.table-toolbar { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.toolbar-left { display: flex; align-items: center; gap: 10px; }
+.table-title { font-size: 14px; font-weight: 600; color: var(--navy); }
+.search-input { padding: 8px 12px 8px 34px; border: 1.5px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; width: 200px; outline: none; background: var(--bg); position: relative; transition: all 0.2s; }
+.search-wrap { position: relative; }
+.search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; stroke: var(--muted2); fill: none; stroke-width: 2; pointer-events: none; }
+.search-input:focus { border-color: var(--sky); background: white; }
+table { width: 100%; border-collapse: collapse; }
+thead th { padding: 10px 16px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted2); background: #f8faff; border-bottom: 1px solid var(--border); white-space: nowrap; }
+tbody tr { border-bottom: 1px solid #f1f5f9; transition: background 0.1s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: #f8faff; }
+tbody td { padding: 12px 16px; font-size: 13px; vertical-align: middle; }
+.cell-id { font-family: monospace; font-size: 11px; color: var(--muted2); font-weight: 600; }
+.cell-total { font-family: monospace; font-size: 12px; font-weight: 600; color: var(--navy); }
+.cell-date { font-size: 12px; color: var(--muted); }
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+.b-masuk { background: #dbeafe; color: #1d4ed8; }
+.b-dicuci { background: #fef9c3; color: #a16207; }
+.b-disetrika { background: #e0f2fe; color: #0369a1; }
+.b-selesai { background: #dcfce7; color: #15803d; }
+.empty-row td { padding: 60px 20px; text-align: center; color: var(--muted2); font-size: 13px; }
+
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; white-space: nowrap; }
+.btn-blue { background: linear-gradient(135deg, var(--sky), var(--sky-dark)); color: white; box-shadow: 0 2px 10px rgba(59,130,246,0.25); }
+.btn-blue:hover { box-shadow: 0 4px 16px rgba(59,130,246,0.35); transform: translateY(-1px); }
+.btn-outline { background: white; color: var(--navy); border: 1.5px solid var(--border); }
+.btn-outline:hover { border-color: var(--sky); color: var(--sky); background: var(--sky-light); }
+.btn-red { background: var(--red-light); color: var(--red); border: 1px solid #fecaca; }
+.btn-red:hover { background: #fecaca; }
+.btn-sm { padding: 5px 10px; font-size: 11px; border-radius: 6px; }
+.btn-icon { width: 30px; height: 30px; padding: 0; justify-content: center; border-radius: 7px; }
+.btn-icon svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.4); z-index: 200; align-items: center; justify-content: center; backdrop-filter: blur(3px); }
+.modal-overlay.open { display: flex; }
+.modal { background: white; border-radius: 20px; border: 1px solid var(--border); padding: 32px; width: 440px; max-width: calc(100vw - 32px); box-shadow: 0 24px 80px rgba(15,23,42,0.18); animation: modalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 20px; }
+.modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.6px; }
+.form-input { width: 100%; padding: 10px 13px; border: 1.5px solid var(--border); border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--navy); outline: none; transition: all 0.2s; background: white; }
+.form-input:focus { border-color: var(--sky); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+select.form-input { cursor: pointer; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.total-preview { background: var(--sky-light); border: 1px solid var(--sky-mid); border-radius: 9px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.total-preview span:first-child { font-size: 12px; color: var(--muted); font-weight: 500; }
+.total-preview span:last-child { font-family: monospace; font-weight: 700; font-size: 15px; color: var(--sky-dark); }
+
+/* LAPORAN */
+.report-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+.report-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; }
+.report-card-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted2); margin-bottom: 8px; }
+.report-card-val { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--navy); }
+.report-card-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.chart-bar-wrap { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; }
+.chart-title { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 20px; }
+.bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 160px; }
+.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+.bar-fill { width: 100%; border-radius: 5px 5px 0 0; background: linear-gradient(180deg, var(--sky) 0%, var(--sky-dark) 100%); min-height: 4px; transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.bar-lbl { font-size: 10px; color: var(--muted2); font-weight: 500; }
+.bar-val { font-size: 9px; color: var(--muted2); white-space: nowrap; }
+
+/* PELANGGAN TABLE */
+.pelanggan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.pelanggan-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; display: flex; flex-direction: column; gap: 8px; transition: all 0.2s; }
+.pelanggan-card:hover { border-color: var(--sky-mid); box-shadow: var(--shadow-md); }
+.pc-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--sky-light), var(--sky-mid)); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--sky-dark); }
+.pc-name { font-weight: 600; font-size: 14px; color: var(--navy); }
+.pc-user { font-size: 12px; color: var(--muted); font-family: monospace; }
+.pc-phone { font-size: 12px; color: var(--muted); }
+.pc-date { font-size: 11px; color: var(--muted2); }
+
+/* ALERT */
+.alert-toast { display: none; position: fixed; bottom: 24px; right: 24px; z-index: 500; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; box-shadow: var(--shadow-md); font-size: 13px; font-weight: 500; max-width: 300px; animation: toastIn 0.3s ease; }
+@keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.alert-toast.success { border-left: 3px solid var(--green); color: var(--green); }
+.alert-toast.error { border-left: 3px solid var(--red); color: var(--red); }
+
+/* NOTA */
+.nota-box { background: #f8faff; border: 1px solid var(--border); border-radius: 9px; padding: 18px 22px; font-family: monospace; font-size: 13px; line-height: 1.9; white-space: pre; color: var(--navy); margin: 12px 0; overflow-x: auto; }
+
+/* CONTEXT MENU */
+.ctx-menu { display: none; position: fixed; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 6px; z-index: 300; box-shadow: var(--shadow-md); min-width: 190px; }
+.ctx-menu.open { display: block; }
+.ctx-item { padding: 8px 13px; border-radius: 7px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 9px; color: var(--navy); transition: background 0.1s; }
+.ctx-item svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; }
+.ctx-item:hover { background: var(--bg); }
+.ctx-item.danger { color: var(--red); }
+.ctx-item.danger:hover { background: var(--red-light); }
+.ctx-sep { height: 1px; background: var(--border); margin: 4px 0; }
+.ctx-head { padding: 4px 13px 3px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted2); }
+
+@media (max-width: 768px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .report-grid { grid-template-columns: 1fr; }
+  .pelanggan-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+    <span class="brand-name">Nisa Laundry</span>
+  </div>
+  <div class="topbar-nav">
+    <button class="nav-tab active" onclick="showPage('pesanan')">
+      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Pesanan
+    </button>
+    <button class="nav-tab" onclick="showPage('pelanggan')">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Pelanggan
+    </button>
+    <button class="nav-tab" onclick="showPage('laporan')">
+      <svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+      Laporan
+    </button>
+  </div>
+  <div class="topbar-right">
+    <div class="user-pill">
+      <div class="user-avatar">A</div>
+      <span class="user-name">Admin</span>
+    </div>
+    <button class="btn-logout" onclick="doLogout()">Keluar</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- PAGE: PESANAN -->
+  <div class="page active" id="page-pesanan">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Manajemen Pesanan</div>
+        <div class="page-sub">Kelola seluruh pesanan laundry masuk</div>
+      </div>
+      <button class="btn btn-blue" onclick="openModal('modal-pesanan')">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:white;fill:none;stroke-width:2.5;stroke-linecap:round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Tambah Pesanan
+      </button>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card blue">
+        <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <div class="stat-val" id="s-total">0</div>
+        <div class="stat-lbl">Total Pesanan</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="stat-val" id="s-proses">0</div>
+        <div class="stat-lbl">Sedang Diproses</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div class="stat-val" id="s-selesai">0</div>
+        <div class="stat-lbl">Selesai</div>
+      </div>
+      <div class="stat-card navy">
+        <div class="stat-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="stat-val" id="s-rev" style="font-size:18px">Rp 0</div>
+        <div class="stat-lbl">Total Pendapatan</div>
+      </div>
+    </div>
+    <div class="table-card">
+      <div class="table-toolbar">
+        <div class="toolbar-left">
+          <span class="table-title">Daftar Pesanan</span>
+          <span style="font-size:11px;color:var(--muted2)">Klik kanan untuk opsi</span>
+        </div>
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="search-input" id="search-pesanan" placeholder="Cari pesanan..." oninput="renderPesanan()" />
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th>ID</th><th>Pelanggan</th><th>Layanan</th><th>Berat</th><th>Total</th><th>Masuk</th><th>Selesai</th><th>Status</th>
+          </tr></thead>
+          <tbody id="tbody-pesanan"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: PELANGGAN -->
+  <div class="page" id="page-pelanggan">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Data Pelanggan</div>
+        <div class="page-sub">Pelanggan yang sudah terdaftar</div>
+      </div>
+    </div>
+    <div id="pelanggan-grid" class="pelanggan-grid"></div>
+  </div>
+
+  <!-- PAGE: LAPORAN -->
+  <div class="page" id="page-laporan">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Laporan Keuangan</div>
+        <div class="page-sub">Rekap pendapatan dan statistik bulanan</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <label style="font-size:13px;color:var(--muted)">Tahun:</label>
+        <select class="form-input" id="lap-tahun" style="width:auto;padding:7px 12px" onchange="renderLaporan()"></select>
+      </div>
+    </div>
+    <div class="report-grid">
+      <div class="report-card">
+        <div class="report-card-label">Total Pesanan (Tahun)</div>
+        <div class="report-card-val" id="lap-total-pesanan">0</div>
+        <div class="report-card-sub">Seluruh pesanan tahun ini</div>
+      </div>
+      <div class="report-card">
+        <div class="report-card-label">Pendapatan (Tahun)</div>
+        <div class="report-card-val" id="lap-total-rev" style="font-size:20px">Rp 0</div>
+        <div class="report-card-sub">Total omzet tahun berjalan</div>
+      </div>
+      <div class="report-card">
+        <div class="report-card-label">Rata-rata / Bulan</div>
+        <div class="report-card-val" id="lap-avg-rev" style="font-size:20px">Rp 0</div>
+        <div class="report-card-sub">Rata-rata pendapatan bulanan</div>
+      </div>
+    </div>
+    <div class="chart-bar-wrap">
+      <div class="chart-title">Pendapatan per Bulan</div>
+      <div class="bar-chart" id="bar-chart"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTX MENU -->
+<div class="ctx-menu" id="ctx-menu">
+  <div class="ctx-head">Ubah Status</div>
+  <div class="ctx-item" onclick="ctxStatus('Masuk')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg> Masuk</div>
+  <div class="ctx-item" onclick="ctxStatus('Dicuci')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> Dicuci</div>
+  <div class="ctx-item" onclick="ctxStatus('Disetrika')"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Disetrika</div>
+  <div class="ctx-item" onclick="ctxStatus('Selesai')"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Selesai</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item danger" onclick="ctxHapus()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> Hapus Pesanan</div>
+</div>
+
+<!-- MODAL PESANAN -->
+<div class="modal-overlay" id="modal-pesanan">
+  <div class="modal">
+    <div class="modal-title">Tambah Pesanan Baru</div>
+    <div class="form-group">
+      <label class="form-label">Pilih Pelanggan</label>
+      <select class="form-input" id="pe-pelanggan"></select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Layanan</label>
+      <select class="form-input" id="pe-layanan">
+        <option value="Cuci + Setrika">Cuci + Setrika (3 hari)</option>
+        <option value="Cuci Saja">Cuci Saja (2 hari)</option>
+        <option value="Setrika Saja">Setrika Saja (2 hari)</option>
+        <option value="Express">Express (1 hari)</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Berat (Kg)</label>
+        <input type="number" class="form-input" id="pe-berat" placeholder="3.5" min="0.1" step="0.1" oninput="hitungTotal()" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Harga / Kg (Rp)</label>
+        <input type="number" class="form-input" id="pe-harga" value="7000" min="0" step="500" oninput="hitungTotal()" />
+      </div>
+    </div>
+    <div class="total-preview">
+      <span>Estimasi Total</span>
+      <span id="preview-total">Rp 0</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Status Awal</label>
+      <select class="form-input" id="pe-status">
+        <option>Masuk</option><option>Dicuci</option><option>Disetrika</option><option>Selesai</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-pesanan')">Batal</button>
+      <button class="btn btn-blue" onclick="simpanPesanan()">Simpan & Cetak Nota</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NOTA -->
+<div class="modal-overlay" id="modal-nota">
+  <div class="modal">
+    <div class="modal-title">Nota Laundry</div>
+    <div class="nota-box" id="nota-content"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-nota')">Tutup</button>
+      <button class="btn btn-blue" onclick="printNota()">Cetak Nota</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL KONFIRMASI HAPUS -->
+<div class="modal-overlay" id="modal-hapus">
+  <div class="modal" style="width:340px">
+    <div class="modal-title">Hapus Pesanan?</div>
+    <p style="font-size:13px;color:var(--muted)">Tindakan ini tidak bisa dibatalkan.</p>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-hapus')">Batal</button>
+      <button class="btn btn-red" onclick="konfirmasiHapus()">Hapus</button>
+    </div>
+  </div>
+</div>
+
+<div class="alert-toast" id="alert-toast"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // AUTH CHECK
+  var sess = JSON.parse(localStorage.getItem('nl_session') || 'null');
+  if (!sess || sess.role !== 'admin') { window.location.href = 'login.html'; return; }
+
+  var LAYANAN_HARI = { 'Cuci + Setrika': 3, 'Cuci Saja': 2, 'Setrika Saja': 2, 'Express': 1 };
+  var BULAN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+  var selectedId = null;
+
+  function getData() { return JSON.parse(localStorage.getItem('nl_pesanan') || '[]'); }
+  function setData(d) { localStorage.setItem('nl_pesanan', JSON.stringify(d)); }
+  function getPelanggan() { return JSON.parse(localStorage.getItem('nl_pelanggan') || '[]'); }
+
+  function fmtRp(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+  function fmtDate(d) { return ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear(); }
+  function parseDate(s) { var p=s.split('/'); return new Date(p[2],p[1]-1,p[0]); }
+
+  function toast(msg, type) {
+    var el = document.getElementById('alert-toast');
+    el.textContent = msg; el.className = 'alert-toast ' + type; el.style.display = 'block';
+    setTimeout(function() { el.style.display = 'none'; }, 2800);
+  }
+
+  window.openModal = function(id) { document.getElementById(id).classList.add('open'); };
+  window.closeModal = function(id) { document.getElementById(id).classList.remove('open'); };
+
+  window.showPage = function(p) {
+    document.querySelectorAll('.page').forEach(function(el) { el.classList.remove('active'); });
+    document.querySelectorAll('.nav-tab').forEach(function(el) { el.classList.remove('active'); });
+    document.getElementById('page-'+p).classList.add('active');
+    event.currentTarget.classList.add('active');
+    if (p === 'pelanggan') renderPelanggan();
+    if (p === 'laporan') renderLaporan();
+  };
+
+  window.doLogout = function() {
+    localStorage.removeItem('nl_session');
+    window.location.href = 'login.html';
+  };
+
+  function badgeClass(s) {
+    var m = { 'Masuk': 'b-masuk', 'Dicuci': 'b-dicuci', 'Disetrika': 'b-disetrika', 'Selesai': 'b-selesai' };
+    return m[s] || 'b-masuk';
+  }
+
+  function renderStats(data) {
+    document.getElementById('s-total').textContent = data.length;
+    document.getElementById('s-proses').textContent = data.filter(function(p){return p.status!=='Selesai';}).length;
+    document.getElementById('s-selesai').textContent = data.filter(function(p){return p.status==='Selesai';}).length;
+    document.getElementById('s-rev').textContent = fmtRp(data.reduce(function(s,p){return s+p.total;},0));
+  }
+
+  window.renderPesanan = function() {
+    var data = getData();
+    var q = (document.getElementById('search-pesanan').value||'').toLowerCase();
+    var filtered = data.filter(function(p) {
+      return p.pelanggan.toLowerCase().indexOf(q)>-1 || p.layanan.toLowerCase().indexOf(q)>-1 ||
+             p.status.toLowerCase().indexOf(q)>-1 || String(p.id).indexOf(q)>-1;
+    });
+    renderStats(data);
+    var tbody = document.getElementById('tbody-pesanan');
+    if (!filtered.length) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="8">Belum ada pesanan</td></tr>';
+      return;
+    }
+    tbody.innerHTML = '';
+    filtered.forEach(function(p) {
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td class="cell-id">#'+('00'+p.id).slice(-3)+'</td>'+
+        '<td><strong>'+p.pelanggan+'</strong></td>'+
+        '<td>'+p.layanan+'</td>'+
+        '<td>'+p.berat+' kg</td>'+
+        '<td class="cell-total">'+fmtRp(p.total)+'</td>'+
+        '<td class="cell-date">'+p.tglMasuk+'</td>'+
+        '<td class="cell-date">'+p.tglSelesai+'</td>'+
+        '<td><span class="badge '+badgeClass(p.status)+'">'+p.status+'</span></td>';
+      tr.addEventListener('contextmenu', function(e) {
+        e.preventDefault(); selectedId = p.id;
+        var ctx = document.getElementById('ctx-menu');
+        ctx.style.left = e.clientX+'px'; ctx.style.top = e.clientY+'px';
+        ctx.classList.add('open');
+      });
+      tr.addEventListener('click', function() { selectedId = p.id; });
+      tbody.appendChild(tr);
+    });
+  };
+
+  window.ctxStatus = function(st) {
+    var data = getData();
+    var p = data.find(function(x){return x.id===selectedId;});
+    if (p) { p.status = st; setData(data); renderPesanan(); toast('Status diubah ke "'+st+'"', 'success'); }
+    document.getElementById('ctx-menu').classList.remove('open');
+  };
+
+  window.ctxHapus = function() {
+    document.getElementById('ctx-menu').classList.remove('open');
+    openModal('modal-hapus');
+  };
+
+  window.konfirmasiHapus = function() {
+    var data = getData().filter(function(p){return p.id!==selectedId;});
+    setData(data); closeModal('modal-hapus'); renderPesanan();
+    toast('Pesanan dihapus.', 'success');
+  };
+
+  window.hitungTotal = function() {
+    var b = parseFloat(document.getElementById('pe-berat').value)||0;
+    var h = parseFloat(document.getElementById('pe-harga').value)||0;
+    document.getElementById('preview-total').textContent = fmtRp(b*h);
+  };
+
+  window.openModal = function(id) {
+    if (id === 'modal-pesanan') {
+      var pelanggan = getPelanggan();
+      var sel = document.getElementById('pe-pelanggan');
+      if (!pelanggan.length) { toast('Belum ada pelanggan terdaftar!', 'error'); return; }
+      sel.innerHTML = pelanggan.map(function(p){return '<option>'+p.nama+'</option>';}).join('');
+      document.getElementById('pe-berat').value = '';
+      document.getElementById('pe-harga').value = '7000';
+      document.getElementById('preview-total').textContent = 'Rp 0';
+    }
+    document.getElementById(id).classList.add('open');
+  };
+
+  window.simpanPesanan = function() {
+    var pl = document.getElementById('pe-pelanggan').value;
+    var ly = document.getElementById('pe-layanan').value;
+    var br = parseFloat(document.getElementById('pe-berat').value);
+    var hr = parseFloat(document.getElementById('pe-harga').value);
+    var st = document.getElementById('pe-status').value;
+    if (!pl||!ly||isNaN(br)||isNaN(hr)) { toast('Semua field wajib diisi!','error'); return; }
+    if (br<=0||hr<=0) { toast('Berat dan harga harus lebih dari 0!','error'); return; }
+    var total = br*hr;
+    var hari = LAYANAN_HARI[ly]||2;
+    var now = new Date(); var selesai = new Date(now);
+    selesai.setDate(selesai.getDate()+hari);
+    var data = getData();
+    var id = data.length ? Math.max.apply(null,data.map(function(x){return x.id;}))+1 : 1;
+    data.push({ id:id, pelanggan:pl, layanan:ly, berat:br, harga:hr, total:total,
+      tglMasuk:fmtDate(now), tglSelesai:fmtDate(selesai), status:st, tglTs:now.getTime() });
+    setData(data); closeModal('modal-pesanan'); renderPesanan();
+    document.getElementById('nota-content').textContent =
+      '================================\n'+
+      '          NOTA LAUNDRY\n'+
+      '          Nisa Laundry\n'+
+      '================================\n\n'+
+      'Pelanggan  : '+pl+'\n'+
+      'Layanan    : '+ly+'\n'+
+      'Berat      : '+br+' Kg\n'+
+      'Harga/Kg   : '+fmtRp(hr)+'\n'+
+      'Total      : '+fmtRp(total)+'\n\n'+
+      'Tgl Masuk  : '+fmtDate(now)+'\n'+
+      'Tgl Selesai: '+fmtDate(selesai)+'\n'+
+      'Status     : '+st+'\n\n'+
+      '================================\n'+
+      '         TERIMA KASIH\n'+
+      '================================';
+    openModal('modal-nota'); toast('Pesanan berhasil disimpan!','success');
+  };
+
+  window.printNota = function() {
+    var c = document.getElementById('nota-content').textContent;
+    var w = window.open('','_blank','width=420,height=560');
+    w.document.write('<html><head><title>Nota Nisa Laundry</title><style>body{font-family:monospace;font-size:13px;padding:24px;white-space:pre;line-height:1.8}</style></head><body>'+c+'</body></html>');
+    w.document.close(); w.print();
+  };
+
+  function renderPelanggan() {
+    var list = getPelanggan();
+    var grid = document.getElementById('pelanggan-grid');
+    if (!list.length) {
+      grid.innerHTML = '<p style="color:var(--muted2);font-size:13px">Belum ada pelanggan terdaftar.</p>';
+      return;
+    }
+    grid.innerHTML = list.map(function(p) {
+      var init = p.nama.charAt(0).toUpperCase();
+      return '<div class="pelanggan-card">'+
+        '<div class="pc-avatar">'+init+'</div>'+
+        '<div class="pc-name">'+p.nama+'</div>'+
+        '<div class="pc-user">@'+p.username+'</div>'+
+        (p.telepon ? '<div class="pc-phone">'+p.telepon+'</div>' : '')+
+        '<div class="pc-date">Bergabung: '+(p.tglDaftar||'-')+'</div>'+
+        '</div>';
+    }).join('');
+  }
+
+  window.renderLaporan = function() {
+    var tahun = parseInt(document.getElementById('lap-tahun').value);
+    var data = getData().filter(function(p) {
+      return parseDate(p.tglMasuk).getFullYear() === tahun;
+    });
+    var totalRev = data.reduce(function(s,p){return s+p.total;},0);
+    var bulanAda = [...new Set(data.map(function(p){return parseDate(p.tglMasuk).getMonth();}))];
+    document.getElementById('lap-total-pesanan').textContent = data.length;
+    document.getElementById('lap-total-rev').textContent = fmtRp(totalRev);
+    document.getElementById('lap-avg-rev').textContent = bulanAda.length ? fmtRp(totalRev/bulanAda.length) : 'Rp 0';
+
+    var perBulan = Array(12).fill(0);
+    data.forEach(function(p) { perBulan[parseDate(p.tglMasuk).getMonth()] += p.total; });
+    var maxVal = Math.max.apply(null, perBulan) || 1;
+    var chart = document.getElementById('bar-chart');
+    chart.innerHTML = perBulan.map(function(v, i) {
+      var h = Math.round((v/maxVal)*130);
+      return '<div class="bar-col">'+
+        '<div class="bar-val">'+(v>0?fmtRp(v).replace('Rp ',''):'')+'</div>'+
+        '<div class="bar-fill" style="height:'+Math.max(h,4)+'px"></div>'+
+        '<div class="bar-lbl">'+BULAN[i]+'</div>'+
+        '</div>';
+    }).join('');
+  };
+
+  // Init tahun selector
+  var tahunSel = document.getElementById('lap-tahun');
+  var now = new Date();
+  for (var y = now.getFullYear(); y >= now.getFullYear()-3; y--) {
+    var opt = document.createElement('option'); opt.value = y; opt.textContent = y;
+    tahunSel.appendChild(opt);
+  }
+
+  // Close ctx on click outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('#ctx-menu')) document.getElementById('ctx-menu').classList.remove('open');
+    if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('open');
+  });
+
+  renderPesanan();
+});
+</script>
+</body>
+</html>
