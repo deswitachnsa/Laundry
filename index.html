@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nisa Laundry — Bersih, Cepat, Terpercaya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --sky: #3b82f6;
+  --sky-dark: #1d4ed8;
+  --sky-light: #eff6ff;
+  --sky-mid: #bfdbfe;
+  --navy: #0f172a;
+  --navy2: #1e293b;
+  --muted: #64748b;
+  --white: #ffffff;
+  --cream: #f8faff;
+  --gold: #c9a84c;
+  --gold-light: #fdf6e3;
+  --radius: 14px;
+  --radius-lg: 24px;
+  --shadow: 0 4px 24px rgba(59,130,246,0.10);
+  --shadow-lg: 0 16px 64px rgba(15,23,42,0.13);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--white);
+  color: var(--navy);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 68px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(191,219,254,0.4);
+  transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: 0 2px 24px rgba(59,130,246,0.10); }
+.nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.logo-mark {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--sky) 0%, var(--sky-dark) 100%);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.logo-mark::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 60%);
+}
+.logo-mark svg { width: 20px; height: 20px; fill: white; position: relative; z-index: 1; }
+.logo-text { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--navy); letter-spacing: -0.3px; }
+.logo-text span { color: var(--sky); }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--sky); }
+.nav-cta { display: flex; gap: 10px; }
+.btn-ghost { padding: 8px 20px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--navy); background: transparent; border: 1.5px solid var(--sky-mid); cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; }
+.btn-ghost:hover { background: var(--sky-light); border-color: var(--sky); color: var(--sky); }
+.btn-primary { padding: 8px 22px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; color: white; background: linear-gradient(135deg, var(--sky) 0%, var(--sky-dark) 100%); border: none; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; box-shadow: 0 2px 12px rgba(59,130,246,0.30); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59,130,246,0.40); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 100px 48px 60px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, #f0f7ff 0%, #ffffff 50%, #fafbff 100%);
+}
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.hero-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+}
+.hero-circle-1 { width: 600px; height: 600px; top: -100px; right: -100px; }
+.hero-circle-2 { width: 400px; height: 400px; bottom: -80px; left: 10%; }
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+}
+.hero-content { position: relative; z-index: 1; max-width: 580px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--sky-light); border: 1px solid var(--sky-mid);
+  border-radius: 100px; padding: 6px 16px 6px 8px;
+  font-size: 12px; font-weight: 500; color: var(--sky-dark);
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s ease both;
+}
+.hero-badge-dot {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--sky), var(--sky-dark));
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-badge-dot svg { width: 10px; height: 10px; fill: white; }
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(40px, 5vw, 60px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--navy);
+  margin-bottom: 20px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.hero-title .accent { color: var(--sky); position: relative; display: inline-block; }
+.hero-title .accent::after {
+  content: '';
+  position: absolute; left: 0; bottom: -4px; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--sky), var(--sky-dark));
+  border-radius: 2px;
+}
+.hero-sub {
+  font-size: 17px; font-weight: 400; color: var(--muted);
+  line-height: 1.65; margin-bottom: 36px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+.hero-actions {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+.btn-hero {
+  padding: 14px 32px; border-radius: 10px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-hero-primary {
+  background: linear-gradient(135deg, var(--sky) 0%, var(--sky-dark) 100%);
+  color: white; border: none;
+  box-shadow: 0 4px 20px rgba(59,130,246,0.35);
+}
+.btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(59,130,246,0.45); }
+.btn-hero-outline {
+  background: white; color: var(--navy);
+  border: 1.5px solid rgba(15,23,42,0.15);
+}
+.btn-hero-outline:hover { border-color: var(--sky); color: var(--sky); background: var(--sky-light); }
+.hero-visual {
+  position: absolute; right: 48px; top: 50%; transform: translateY(-50%);
+  width: 480px;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+.hero-card-stack { position: relative; width: 100%; height: 380px; }
+.hcard {
+  position: absolute;
+  background: white;
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(191,219,254,0.5);
+  padding: 24px;
+  transition: transform 0.3s;
+}
+.hcard-main {
+  width: 340px; right: 40px; top: 20px;
+  z-index: 3;
+}
+.hcard-back1 {
+  width: 300px; right: 20px; top: 50px;
+  z-index: 2; opacity: 0.7;
+  transform: rotate(3deg);
+}
+.hcard-back2 {
+  width: 280px; right: 0; top: 80px;
+  z-index: 1; opacity: 0.45;
+  transform: rotate(6deg);
+}
+.hcard-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 16px; }
+.hcard-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+.hcard-sub { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+.status-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.status-pill {
+  padding: 4px 12px; border-radius: 100px;
+  font-size: 11px; font-weight: 600;
+}
+.pill-blue { background: #dbeafe; color: #1d4ed8; }
+.pill-green { background: #dcfce7; color: #15803d; }
+.pill-amber { background: #fef9c3; color: #a16207; }
+.progress-bar { height: 4px; background: #e2e8f0; border-radius: 2px; margin: 14px 0 8px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--sky), var(--sky-dark)); width: 65%; }
+.hcard-stat-row { display: flex; gap: 12px; margin-top: 16px; }
+.hcard-stat { flex: 1; background: var(--sky-light); border-radius: 10px; padding: 10px 14px; }
+.hcard-stat-val { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--sky-dark); }
+.hcard-stat-lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.hero-stats {
+  margin-top: 48px; display: flex; gap: 32px;
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+.hero-stat-item { }
+.hero-stat-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--navy); }
+.hero-stat-num span { color: var(--sky); }
+.hero-stat-lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ── FEATURES ── */
+.section { padding: 96px 48px; }
+.section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--sky); margin-bottom: 12px; text-align: center; }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 3vw, 40px); font-weight: 700; color: var(--navy); text-align: center; line-height: 1.25; margin-bottom: 16px; }
+.section-sub { font-size: 16px; color: var(--muted); text-align: center; max-width: 520px; margin: 0 auto 60px; line-height: 1.65; }
+
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
+.feature-card {
+  background: white; border: 1px solid rgba(191,219,254,0.4);
+  border-radius: var(--radius-lg); padding: 32px;
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.feature-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--sky), var(--sky-dark));
+  opacity: 0; transition: opacity 0.3s;
+}
+.feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--sky-mid); }
+.feature-card:hover::before { opacity: 1; }
+.feature-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--sky-light); border: 1px solid var(--sky-mid);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+}
+.feature-icon svg { width: 24px; height: 24px; stroke: var(--sky); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.feature-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+.feature-desc { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+/* ── HOW IT WORKS ── */
+.how-section { background: linear-gradient(160deg, var(--sky-light) 0%, #ffffff 100%); padding: 96px 48px; }
+.steps-row { display: flex; gap: 0; max-width: 900px; margin: 0 auto; position: relative; }
+.steps-row::before {
+  content: '';
+  position: absolute; top: 36px; left: calc(16.6% + 36px); right: calc(16.6% + 36px);
+  height: 1px; background: var(--sky-mid);
+}
+.step { flex: 1; text-align: center; padding: 0 24px; }
+.step-num {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: white; border: 2px solid var(--sky-mid);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px; position: relative; z-index: 1;
+  font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--sky);
+  box-shadow: 0 4px 16px rgba(59,130,246,0.15);
+}
+.step-title { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+.step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* ── ROLES ── */
+.roles-section { padding: 96px 48px; background: var(--navy); position: relative; overflow: hidden; }
+.roles-section::before {
+  content: '';
+  position: absolute; top: -200px; right: -200px;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+}
+.roles-section .section-label { color: var(--sky-mid); }
+.roles-section .section-title { color: white; }
+.roles-section .section-sub { color: rgba(255,255,255,0.55); }
+.roles-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 820px; margin: 0 auto; }
+.role-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg); padding: 36px;
+  position: relative; overflow: hidden;
+  transition: all 0.3s;
+}
+.role-card:hover { background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.4); transform: translateY(-3px); }
+.role-icon { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+.role-icon-admin { background: linear-gradient(135deg, var(--sky), var(--sky-dark)); }
+.role-icon-customer { background: linear-gradient(135deg, var(--gold), #a07730); }
+.role-icon svg { width: 26px; height: 26px; stroke: white; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.role-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: white; margin-bottom: 10px; }
+.role-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-bottom: 20px; }
+.role-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.role-features li { font-size: 13px; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 8px; }
+.role-features li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--sky); flex-shrink: 0; }
+.role-cta {
+  margin-top: 24px; display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600; text-decoration: none;
+  padding: 10px 20px; border-radius: 8px;
+  transition: all 0.2s;
+}
+.cta-admin { background: linear-gradient(135deg, var(--sky), var(--sky-dark)); color: white; }
+.cta-customer { background: linear-gradient(135deg, var(--gold), #a07730); color: white; }
+.role-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+.role-cta svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--navy2); padding: 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.footer-brand { display: flex; align-items: center; gap: 12px; }
+.footer-logo { width: 34px; height: 34px; background: linear-gradient(135deg, var(--sky), var(--sky-dark)); border-radius: 9px; display: flex; align-items: center; justify-content: center; }
+.footer-logo svg { width: 18px; height: 18px; fill: white; }
+.footer-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: white; }
+.footer-copy { font-size: 13px; color: rgba(255,255,255,0.35); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal { opacity: 0; transform: translateY(32px); transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .hero-visual { display: none; }
+  .hero-content { max-width: 100%; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 90px 20px 60px; }
+  .section { padding: 60px 20px; }
+  .how-section { padding: 60px 20px; }
+  .roles-section { padding: 60px 20px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .roles-grid { grid-template-columns: 1fr; }
+  .steps-row { flex-direction: column; gap: 32px; }
+  .steps-row::before { display: none; }
+  footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
+    <span class="logo-text">Nisa <span>Laundry</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="#fitur">Fitur</a>
+    <a href="#cara-kerja">Cara Kerja</a>
+    <a href="#akses">Akses</a>
+  </div>
+  <div class="nav-cta">
+    <a href="login.html" class="btn-ghost">Masuk</a>
+    <a href="register.html" class="btn-primary">Daftar Gratis</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-circle hero-circle-1"></div>
+    <div class="hero-circle hero-circle-2"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="hero-badge-dot">
+        <svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>
+      </div>
+      Sistem Manajemen Laundry Modern
+    </div>
+    <h1 class="hero-title">
+      Kelola Laundry Anda<br>Lebih <span class="accent">Cerdas</span><br>& Profesional
+    </h1>
+    <p class="hero-sub">
+      Platform digital lengkap untuk usaha laundry — dari pencatatan pesanan, manajemen pelanggan, hingga laporan keuangan. Semua dalam satu tampilan yang elegan.
+    </p>
+    <div class="hero-actions">
+      <a href="register.html" class="btn-hero btn-hero-primary">
+        Mulai Sekarang
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:white;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="login.html" class="btn-hero btn-hero-outline">Sudah Punya Akun</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat-item">
+        <div class="hero-stat-num">100<span>%</span></div>
+        <div class="hero-stat-lbl">Offline Ready</div>
+      </div>
+      <div class="hero-stat-item" style="padding-left:32px;border-left:1px solid #e2e8f0">
+        <div class="hero-stat-num">2<span>+</span></div>
+        <div class="hero-stat-lbl">Role Pengguna</div>
+      </div>
+      <div class="hero-stat-item" style="padding-left:32px;border-left:1px solid #e2e8f0">
+        <div class="hero-stat-num">∞</div>
+        <div class="hero-stat-lbl">Pesanan Tersimpan</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card-stack">
+      <div class="hcard hcard-back2">
+        <div class="hcard-label">Laporan Bulanan</div>
+        <div class="hcard-stat-row">
+          <div class="hcard-stat"><div class="hcard-stat-val">148</div><div class="hcard-stat-lbl">Pesanan</div></div>
+          <div class="hcard-stat"><div class="hcard-stat-val">Rp 4.2jt</div><div class="hcard-stat-lbl">Pendapatan</div></div>
+        </div>
+      </div>
+      <div class="hcard hcard-back1">
+        <div class="hcard-label">Status Pesanan</div>
+        <div class="status-row"><span style="font-size:13px;font-weight:500">Budi Santoso</span><span class="status-pill pill-amber">Dicuci</span></div>
+        <div class="status-row"><span style="font-size:13px;font-weight:500">Rina Wijaya</span><span class="status-pill pill-green">Selesai</span></div>
+      </div>
+      <div class="hcard hcard-main">
+        <div class="hcard-label">Dashboard Admin</div>
+        <div class="hcard-title">Nisa Laundry</div>
+        <div class="hcard-sub">Hari ini, 5 pesanan masuk</div>
+        <div class="status-row">
+          <span style="font-size:13px;color:#64748b">Progres Harian</span>
+          <span style="font-size:13px;font-weight:600;color:#1d4ed8">65%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="hcard-stat-row">
+          <div class="hcard-stat"><div class="hcard-stat-val">24</div><div class="hcard-stat-lbl">Total Hari Ini</div></div>
+          <div class="hcard-stat"><div class="hcard-stat-val" style="font-size:14px">Rp 842k</div><div class="hcard-stat-lbl">Pendapatan</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FITUR -->
+<section class="section" id="fitur">
+  <div class="section-label">Fitur Unggulan</div>
+  <h2 class="section-title">Semua yang Anda Butuhkan</h2>
+  <p class="section-sub">Dirancang khusus untuk usaha laundry skala kecil hingga menengah agar operasional lebih efisien.</p>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      </div>
+      <div class="feature-title">Dashboard Real-time</div>
+      <div class="feature-desc">Pantau total pesanan, yang sedang diproses, selesai, dan pendapatan dalam satu layar.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="feature-title">Multi-Role Login</div>
+      <div class="feature-desc">Admin kelola semua pesanan. Pelanggan bisa daftar, login, dan cek status laundry sendiri.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </div>
+      <div class="feature-title">Cetak Nota Otomatis</div>
+      <div class="feature-desc">Nota pesanan tergenerate otomatis setiap order masuk, siap cetak langsung dari browser.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+      </div>
+      <div class="feature-title">Laporan Bulanan</div>
+      <div class="feature-desc">Rekap pendapatan per bulan dengan grafik visual. Mudah dipantau performa usaha Anda.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.44 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+      </div>
+      <div class="feature-title">Notifikasi Status</div>
+      <div class="feature-desc">Pelanggan dapat melihat update status laundry mereka secara real-time kapanpun.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <div class="feature-title">Riwayat Pesanan</div>
+      <div class="feature-desc">Seluruh histori pesanan pelanggan tersimpan dan bisa dicari dengan mudah kapan saja.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CARA KERJA -->
+<section class="how-section" id="cara-kerja">
+  <div class="section-label">Cara Kerja</div>
+  <h2 class="section-title">Simpel, Cepat, Efisien</h2>
+  <p class="section-sub">Tidak perlu training panjang. Dalam 3 langkah, usaha laundry Anda sudah berjalan digital.</p>
+  <div class="steps-row">
+    <div class="step reveal">
+      <div class="step-num">1</div>
+      <div class="step-title">Daftar Akun</div>
+      <div class="step-desc">Admin buat akun, pelanggan daftar sendiri dengan username dan password pilihan mereka.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">2</div>
+      <div class="step-title">Input Pesanan</div>
+      <div class="step-desc">Admin masukkan detail pesanan — layanan, berat, harga — nota tercetak otomatis.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">3</div>
+      <div class="step-title">Pantau & Selesai</div>
+      <div class="step-desc">Update status pesanan, pelanggan notifikasi otomatis, rekap laporan tersedia setiap saat.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES -->
+<section class="roles-section" id="akses">
+  <div class="section-label">Hak Akses</div>
+  <h2 class="section-title">Dua Peran, Satu Platform</h2>
+  <p class="section-sub">Sistem dirancang dengan dua role berbeda agar setiap pengguna mendapat pengalaman yang tepat.</p>
+  <div class="roles-grid">
+    <div class="role-card reveal">
+      <div class="role-icon role-icon-admin">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="role-title">Admin</div>
+      <div class="role-desc">Pemilik atau operator laundry yang mengelola seluruh operasional bisnis.</div>
+      <ul class="role-features">
+        <li>Kelola semua pesanan & pelanggan</li>
+        <li>Update status pesanan real-time</li>
+        <li>Lihat laporan & grafik pendapatan</li>
+        <li>Cetak nota & rekap bulanan</li>
+      </ul>
+      <a href="login.html" class="role-cta cta-admin">
+        Masuk sebagai Admin
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="role-card reveal">
+      <div class="role-icon role-icon-customer">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="role-title">Pelanggan</div>
+      <div class="role-desc">Pelanggan setia Nisa Laundry yang ingin memantau pesanan secara mandiri.</div>
+      <ul class="role-features">
+        <li>Daftar akun sendiri dengan bebas</li>
+        <li>Cek status laundry kapanpun</li>
+        <li>Lihat riwayat pesanan lengkap</li>
+        <li>Notifikasi ketika laundry selesai</li>
+      </ul>
+      <a href="register.html" class="role-cta cta-customer">
+        Daftar sebagai Pelanggan
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <div class="footer-logo">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
+    <span class="footer-name">Nisa Laundry</span>
+  </div>
+  <span class="footer-copy">© 2025 Nisa Laundry. Semua hak dilindungi.</span>
+</footer>
+
+<script>
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e, i) {
+    if (e.isIntersecting) {
+      setTimeout(function() { e.target.classList.add('visible'); }, i * 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(function(el) { observer.observe(el); });
+</script>
+</body>
+</html>
